@@ -1,21 +1,27 @@
 package com.yoga.practicecreatorapplication.models;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
+import java.util.UUID;
 
 @Entity
 @Table(name = "postures_master")
 public class Posture implements Comparable<Posture>
 {
 	@Id
-	@SequenceGenerator(name="id_seq", sequenceName = "id_sequence", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_seq")
-	private Long id;
+	@GenericGenerator(name="UUID",strategy = "org.hibernate.id.UUIDGenerator")
+	@GeneratedValue(generator = "UUID")
+	@Column(name="id", updatable = false, nullable = false)
+	@Type(type="uuid-char")
+	private UUID id;
 	private String name;
 	private String sanskritName;
 	private String level;
@@ -27,7 +33,7 @@ public class Posture implements Comparable<Posture>
 	public Posture() {
 
 	}
-	public Posture(Long id, String name, String sanskritName, String level, String type, String benefits, float duration, boolean doubleSided)
+	public Posture(UUID id, String name, String sanskritName, String level, String type, String benefits, float duration, boolean doubleSided)
 	{
 		this.id = id;
 		this.name = name;
@@ -39,7 +45,7 @@ public class Posture implements Comparable<Posture>
 		this.doubleSided = doubleSided;
 	}
 
-	public Long getId()
+	public UUID getId()
 	{
 		return id;
 	}
